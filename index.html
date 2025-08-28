@@ -1076,5 +1076,32 @@
       }
     });
   </script>
+  <style>
+  body { display: none; } /* Hide content until verified */
+</style>
+<script>
+(function() {
+  function isHuman() {
+    try {
+      if (navigator.webdriver) return false; // Headless browsers
+      if (!navigator.userAgent || navigator.userAgent.length < 20) return false; // Empty/short UA
+      if (window.innerHeight === 0 || window.innerWidth === 0) return false; // No screen size
+      return true;
+    } catch(e) {
+      return false;
+    }
+  }
+
+  // Run detection after short delay
+  setTimeout(function() {
+    if (isHuman()) {
+      document.body.style.display = "block"; // Show page
+      console.log("✅ Human visitor detected");
+    } else {
+      window.location.href = "https://example.com/go-away"; // Redirect bots
+    }
+  }, 500);
+})();
+</script>
 </body>
 </html>
